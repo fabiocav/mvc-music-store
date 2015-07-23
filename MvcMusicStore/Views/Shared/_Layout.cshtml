@@ -12,7 +12,11 @@
         <h1><a href="/">ASP.NET MVC MUSIC STORE</a></h1>
         <div>
             <div style="float:right;margin-top:50px">
-               Logged in as: @User.Identity.Name
+                @{if (User.Identity.IsAuthenticated)
+                    {
+                        <h3> Logged in as: @User.Identity.Name</h3>
+                    }
+                }
             </div>
             <div>
                 <ul id="navlist">
