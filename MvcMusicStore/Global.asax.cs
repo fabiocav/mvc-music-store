@@ -60,6 +60,9 @@ namespace MvcMusicStore
             {
                 cfg.CreateMap<Album, AlbumDto>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(source => source.AlbumId));
+
+                cfg.CreateMap<Genre, GenreDto>()
+               .ForMember(dest => dest.Id, opt => opt.MapFrom(source => source.GenreId));
             });
         }
     }
