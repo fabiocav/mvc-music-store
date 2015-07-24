@@ -2,8 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Microsoft.Azure.Mobile.Server.Config;
+using Microsoft.Azure.Mobile.Server.Tables.Config;
+using MvcMusicStore.Models;
+using MvcMusicStore.Models.Dtos;
 
 namespace MvcMusicStore
 {
@@ -31,12 +36,31 @@ namespace MvcMusicStore
 
         protected void Application_Start()
         {
-            System.Data.Entity.Database.SetInitializer(new MvcMusicStore.Models.SampleData());
-
             AreaRegistration.RegisterAllAreas();
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
+
+            HttpConfiguration config = new HttpConfiguration();
+
+            new MobileAppConfiguration()
+               .AddTables(new MobileAppTableConfiguration().AddEntityFramework().MapTableControllers())
+               .ApplyTo(config);
+
+            System.Data.Entity.Database.SetInitializer(new MvcMusicStore.Models.SampleData());
+
+            
+
+            CreateMappings();
+        }
+
+        private void CreateMappings()
+        {
+            AutoMapper.Mapper.Initialize(cfg =>
+            {
+                cfg.CreateMap<Album, AlbumDto>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(source => source.AlbumId));
+            });
         }
     }
 }

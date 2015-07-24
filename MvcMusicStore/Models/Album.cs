@@ -9,6 +9,7 @@ namespace MvcMusicStore.Models
     public class Album
     {
         [ScaffoldColumn(false)]
+        [MappedId]
         public int AlbumId { get; set; }
 
         [DisplayName("Genre")]
