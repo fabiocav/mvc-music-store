@@ -39,17 +39,17 @@ namespace MvcMusicStore
             AreaRegistration.RegisterAllAreas();
 
             RegisterGlobalFilters(GlobalFilters.Filters);
+            
+            GlobalConfiguration.Configure(config =>
+            {
+               new MobileAppConfiguration()
+                  .AddTables(new MobileAppTableConfiguration().AddEntityFramework().MapTableControllers())
+                  .ApplyTo(config);
+            });
+
             RegisterRoutes(RouteTable.Routes);
 
-            HttpConfiguration config = new HttpConfiguration();
-
-            new MobileAppConfiguration()
-               .AddTables(new MobileAppTableConfiguration().AddEntityFramework().MapTableControllers())
-               .ApplyTo(config);
-
             System.Data.Entity.Database.SetInitializer(new MvcMusicStore.Models.SampleData());
-
-            
 
             CreateMappings();
         }
